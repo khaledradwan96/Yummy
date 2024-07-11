@@ -34,9 +34,32 @@ for(let i=0; i<5; i++){
     $('.nav-tab li').eq(i).animate({top: 300}, 500)
 }
 
+// ========== function close nav ==========
+function closeNav(){
+    $('nav').animate({left: -boxWidth}, 500)
+    $('#toggleButton').toggleClass('fa-bars')
+    $('#toggleButton').toggleClass('fa-x')
+}
+
 // ========== change website theme ==========
 $('.colorContainer span').click(function(){
     let color = $(this).css('backgroundColor')
     console.log(color)
     $(':root').css('--main-color', color)
 })
+
+let rowData = document.getElementById('rowData')
+
+// ========== Show Search inputs ==========
+function goToSearch(){
+    closeNav()
+    rowData.innerHTML = `
+        <div class="row py-5 g-4 w-75 m-auto">
+            <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Search By Name">
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Search By First Letter">
+            </div>
+        </div>`
+}

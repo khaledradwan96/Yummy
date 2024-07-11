@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html lang="en">
 
 <head>
@@ -39,7 +39,7 @@
     <nav>
         <div class="nav-tab">
             <ul>
-                <li>Search</li>
+                <li onclick="goToSearch()">Search</li>
                 <li>Categories</li>
                 <li>Area</li>
                 <li>Ingredients</li>
@@ -82,6 +82,13 @@
         </header>
     </nav>
 
+    <!-- ========== Data Section ========== -->
+    <section>
+        <div class="container">
+            <div id="rowData">
+            </div>
+        </div>
+    </section>
 
     <!-- ========== JS Files ========== -->
     <script src="js/bootstrap.bundle.min.js"></script>
