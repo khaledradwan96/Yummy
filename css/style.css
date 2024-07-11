@@ -115,7 +115,6 @@ nav {
   height: 100vh;
   z-index: 9999;
   left: 0;
-  /* left: -100px; */
 }
 nav header {
   display: flex;
@@ -139,12 +138,11 @@ nav .nav-tab {
   background-color: var(--bg-black);
   color: #ffffff;
   padding: 1.5rem;
-  /* position: relative; */
-  /* left: -50px; */
 }
 nav .nav-tab ul {
   list-style: none;
   padding-left: 0;
+  overflow: hidden;
 }
 nav .nav-tab li {
   cursor: pointer;
