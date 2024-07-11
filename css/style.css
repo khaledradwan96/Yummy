@@ -1,9 +1,5 @@
-:root {
-  --bg-black: #0d0d0d;
-}
-
 body {
-  background-color: var(--bg-black);
+  background-color: var(--main-color);
 }
 
 /* ========== loading screen ========== */
@@ -135,7 +131,7 @@ nav .nav-tab {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: var(--bg-black);
+  background-color: var(--main-color);
   color: #ffffff;
   padding: 1.5rem;
 }
@@ -148,6 +144,28 @@ nav .nav-tab li {
   cursor: pointer;
   padding-block: 0.5rem;
   position: relative;
+}
+nav .nav-tab .colorContainer {
+  background-color: white;
+  padding: 10px;
+}
+nav .nav-tab .colorContainer span {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  cursor: pointer;
+}
+nav .nav-tab .colorContainer span:nth-child(1) {
+  background-color: #405d72;
+}
+nav .nav-tab .colorContainer span:nth-child(2) {
+  background-color: #eb5b00;
+}
+nav .nav-tab .colorContainer span:nth-child(3) {
+  background-color: #009fbd;
+}
+nav .nav-tab .colorContainer span:nth-child(4) {
+  background-color: #0d0d0d;
 }
 nav .social a {
   color: #fff;

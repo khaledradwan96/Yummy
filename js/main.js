@@ -34,3 +34,9 @@ for(let i=0; i<5; i++){
     $('.nav-tab li').eq(i).animate({top: 300}, 500)
 }
 
+// ========== change website theme ==========
+$('.colorContainer span').click(function(){
+    let color = $(this).css('backgroundColor')
+    console.log(color)
+    $(':root').css('--main-color', color)
+})
