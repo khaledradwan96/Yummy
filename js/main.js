@@ -48,18 +48,35 @@ $('.colorContainer span').click(function(){
     $(':root').css('--main-color', color)
 })
 
+let searchContainer = document.getElementById('searchContainer')
 let rowData = document.getElementById('rowData')
 
 // ========== Show Search inputs ==========
 function goToSearch(){
     closeNav()
-    rowData.innerHTML = `
+    searchContainer.innerHTML = `
         <div class="row py-5 g-4 w-75 m-auto">
             <div class="col-md-6">
-                <input type="text" class="form-control" placeholder="Search By Name">
+                <input onkeyup="searchByName(value)" type="text" class="form-control" placeholder="Search By Name">
             </div>
             <div class="col-md-6">
-                <input type="text" class="form-control" placeholder="Search By First Letter">
+                <input onkeyup="searchByFirstLetter(value)" maxlength="1" type="text" class="form-control" placeholder="Search By First Letter">
             </div>
         </div>`
+}
+
+// ========== Search meal by name ==========
+async function searchByName(name = 'Arrabiata'){
+    let api = `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`
+    let response = await fetch(api)
+    response = await response.json()
+    console.log(response)
+}
+
+// ========== List all meals by first letter ==========
+async function searchByFirstLetter(letter = 'a'){
+    let api = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`
+    let response = await fetch(api)
+    response = await response.json()
+    console.log(response)
 }
