@@ -1,3 +1,4 @@
+// #################### main script ####################
 // ========== loading screen ========== 
 $(document).ready(function(){
     $('.loading-screen').fadeOut(1000, function(){
@@ -7,11 +8,15 @@ $(document).ready(function(){
 
 // ========== navbar left ==========
 let boxWidth = $('nav .nav-tab').outerWidth()
-$('#toggleButton').click(function(){
-    // toggle icon
-    $(this).toggleClass('fa-bars')
-    $(this).toggleClass('fa-x')
-    
+// start view
+$('nav').css({'left': -boxWidth})
+for(let i=0; i<5; i++){
+    $('.nav-tab li').eq(i).animate({top: 300}, 500)
+}
+
+// ========== function close nav ==========
+function closeNav(){
+    $(this).toggleClass('fa-bars').toggleClass('fa-x')
     // make nav hidden left
     if($('nav').css('left') == '0px'){ // nav is shown
         $('nav').animate({left: -boxWidth}, 500)
@@ -26,22 +31,12 @@ $('#toggleButton').click(function(){
             $('.nav-tab li').eq(i).animate({top: 0}, (i + 5) * 100)
         }
     }
-})
-// start view
-$('nav').animate({left: -boxWidth}, 10)
-for(let i=0; i<5; i++){
-    $('.nav-tab li').eq(i).animate({top: 300}, 500)
-}
-
-// ========== function close nav ==========
-function closeNav(){
-    $('nav').animate({left: -boxWidth}, 500)
-    $('#toggleButton').toggleClass('fa-bars')
-    $('#toggleButton').toggleClass('fa-x')
 }
 // ========== function loadingScreen ==========
 function loadingScreen(){
-    $('.loading-screen').fadeIn(100).fadeOut(500)
+    $('.loading-screen').fadeIn(100).fadeOut(500);
+    rowData.innerHTML = ''
+    searchContainer.innerHTML = ''
 }
 
 // ========== change website theme ==========
@@ -54,9 +49,12 @@ $('.colorContainer span').click(function(){
 let searchContainer = document.getElementById('searchContainer')
 let rowData = document.getElementById('rowData')
 
+// #################### Search script ####################
 // ========== Show Search inputs ==========
+
 function goToSearch(){
-    closeNav()
+    closeNav();
+    loadingScreen()
     searchContainer.innerHTML = `
         <div class="row py-5 g-4 w-75 m-auto">
             <div class="col-md-6">
@@ -87,6 +85,7 @@ async function searchByFirstLetter(letter){
     displayMeals(response.meals)
 }
 
+// #################### Display meals & details script ####################
 // ========== Display meals ==========
 function displayMeals(data){
     let cartona = ''
@@ -107,8 +106,6 @@ function displayMeals(data){
 // ========== get meal details ==========
 async function getMealDetails(id){
     loadingScreen()
-    rowData.innerHTML = ''
-    searchContainer.innerHTML = ''
     // console.log('details' , id) // => for testing
     let api = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
     let response = await fetch(api)
@@ -165,10 +162,10 @@ async function getMealDetails(id){
 // getMealDetails(52979) // => many strTags
 // getMealDetails(52971) // => null strTags
 
+// #################### Category script ####################
 // ========== go To meals category ==========
 async function goToCategory(){
-    searchContainer.innerHTML = ''
-    closeNav()
+    closeNav();
     loadingScreen()
     let api = `https://www.themealdb.com/api/json/v1/1/categories.php`
     let response = await fetch(api)
@@ -196,7 +193,6 @@ async function goToCategory(){
 // ========== display category meals ==========
 async function displayByCategory(category){
     loadingScreen()
-    rowData.innerHTML = ''
     let api = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
     let response = await fetch(api)
     response = await response.json()
@@ -219,10 +215,10 @@ async function displayByCategory(category){
 }
 // displayByCategory('Seafood')  // => for testing
 
+// #################### Areas script ####################
 // ========== go To Areas ==========
 async function goToArea(){
-    searchContainer.innerHTML = ''
-    closeNav()
+    closeNav();
     loadingScreen()
     let api = `https://www.themealdb.com/api/json/v1/1/list.php?a=list`
     let response = await fetch(api)
@@ -247,7 +243,6 @@ async function goToArea(){
 // ========== Display Areas meals ==========
 async function displayByArea(area){
     loadingScreen()
-    rowData.innerHTML = ''
     let api = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`
     let response = await fetch(api)
     response = await response.json()
@@ -270,10 +265,10 @@ async function displayByArea(area){
 }
 // displayByArea('Canadian') // => for testing
 
+// #################### Ingredients script ####################
 // ========== go To Ingredients ==========
 async function goToIngredients(){
-    searchContainer.innerHTML = ''
-    closeNav()
+    closeNav();
     loadingScreen()
     let api = `https://www.themealdb.com/api/json/v1/1/list.php?i=list`
     let response = await fetch(api)
@@ -299,7 +294,6 @@ async function goToIngredients(){
 // ========== Display Ingredients ==========
 async function displayByIngredients(ingredient){
     loadingScreen()
-    rowData.innerHTML = ''
     let api = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`
     let response = await fetch(api)
     response = await response.json()
@@ -321,3 +315,12 @@ async function displayByIngredients(ingredient){
     rowData.innerHTML = cartona
 }
 // displayByIngredients('chicken')  // => for testing
+
+// #################### contact us script ####################
+// ========== go To contact us ==========
+function goToContact(){
+    closeNav();
+    loadingScreen()
+    console.log('hi')
+}
+// goToContact()  // => for testing
