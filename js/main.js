@@ -1,10 +1,9 @@
 // ========== loading screen ========== 
 $(document).ready(function(){
-    $('.loading-screen').fadeOut(2000, function(){
+    $('.loading-screen').fadeOut(1000, function(){
         $('body').css('overflow', 'auto')
     })
 })
-
 
 // ========== navbar left ==========
 let boxWidth = $('nav .nav-tab').outerWidth()
@@ -39,6 +38,10 @@ function closeNav(){
     $('nav').animate({left: -boxWidth}, 500)
     $('#toggleButton').toggleClass('fa-bars')
     $('#toggleButton').toggleClass('fa-x')
+}
+// ========== function loadingScreen ==========
+function loadingScreen(){
+    $('.loading-screen').fadeIn(100).fadeOut(500)
 }
 
 // ========== change website theme ==========
@@ -103,6 +106,7 @@ function displayMeals(data){
 
 // ========== get meal details ==========
 async function getMealDetails(id){
+    loadingScreen()
     rowData.innerHTML = ''
     searchContainer.innerHTML = ''
     console.log('details' , id)
@@ -167,6 +171,7 @@ async function getMealDetails(id){
 // ========== go To meals category ==========
 async function goToCategory(){
     closeNav()
+    loadingScreen()
     let api = `https://www.themealdb.com/api/json/v1/1/categories.php`
     let response = await fetch(api)
     response = await response.json()
@@ -187,5 +192,9 @@ async function goToCategory(){
     }
     rowData.innerHTML = cartona
 }
-goToCategory()
+// goToCategory()
 
+// ========== display category meals ==========
+function displayCategory(){
+
+}
