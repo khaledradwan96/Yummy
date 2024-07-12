@@ -47,7 +47,7 @@ function loadingScreen(){
 // ========== change website theme ==========
 $('.colorContainer span').click(function(){
     let color = $(this).css('backgroundColor')
-    console.log(color)
+    // console.log(color) // => for testing
     $(':root').css('--main-color', color)
 })
 
@@ -74,7 +74,7 @@ async function searchByName(name){
     let api = `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`
     let response = await fetch(api)
     response = await response.json()
-    console.log(response.meals)
+    // console.log(response.meals) // => for testing
     displayMeals(response.meals)
 }
 
@@ -83,7 +83,7 @@ async function searchByFirstLetter(letter){
     let api = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`
     let response = await fetch(api)
     response = await response.json()
-    console.log(response)
+    // console.log(response) // => for testing
     displayMeals(response.meals)
 }
 
@@ -109,12 +109,12 @@ async function getMealDetails(id){
     loadingScreen()
     rowData.innerHTML = ''
     searchContainer.innerHTML = ''
-    console.log('details' , id)
+    // console.log('details' , id) // => for testing
     let api = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
     let response = await fetch(api)
     response = await response.json()
     let details = response.meals[0];
-    console.log(details)
+    // console.log(details) // => for testing
 
     // === Get Ingredients ===
     let ingredients = ''
@@ -126,7 +126,7 @@ async function getMealDetails(id){
 
     // === Get Tags ===
     let tags = details.strTags?.split(',')
-    console.log(tags);
+    // console.log(tags); // => for testing
     if(tags == undefined){tags = []}
     let tagsStr = ''
     for(let i=0; i< tags.length; i++){
@@ -174,7 +174,7 @@ async function goToCategory(){
     let response = await fetch(api)
     response = await response.json()
     let categories = response.categories
-    // console.log(categories)
+    // console.log(categories) // => for testing
 
     let cartona = ''
     for(let i=0; i< categories.length; i++){
@@ -201,7 +201,7 @@ async function displayCategory(category){
     let response = await fetch(api)
     response = await response.json()
     let data = response.meals
-    console.log(data)
+    // console.log(data) // => for testing
 
     let cartona = ''
     for(let i=0; i<data.length; i++){
@@ -228,7 +228,7 @@ async function goToArea(){
     let response = await fetch(api)
     response = await response.json()
     let data = response.meals
-    console.log(data)
+    // console.log(data) // => for testing
 
     let cartona = ''
     for(let i=0; i<data.length; i++){
