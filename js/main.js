@@ -67,7 +67,7 @@ function goToSearch(){
 goToSearch()
 
 // ========== Search meal by name ==========
-async function searchByName(name = 'Arrabiata'){
+async function searchByName(name){
     let api = `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`
     let response = await fetch(api)
     response = await response.json()
@@ -76,7 +76,7 @@ async function searchByName(name = 'Arrabiata'){
 }
 
 // ========== List all meals by first letter ==========
-async function searchByFirstLetter(letter = 'a'){
+async function searchByFirstLetter(letter){
     let api = `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`
     let response = await fetch(api)
     response = await response.json()
@@ -102,7 +102,66 @@ function displayMeals(data){
 }
 
 // ========== get meal details ==========
-function getMealDetails(id){
+async function getMealDetails(id){
+    rowData.innerHTML = ''
+    searchContainer.innerHTML = ''
     console.log('details' , id)
+    let api = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+    let response = await fetch(api)
+    response = await response.json()
+    // console.log(response)
+    // console.log(response.meals)
+    console.log(response.meals[0])
+    
+    let details = response.meals[0];
 
+    // Get Ingredients
+    let ingredients = ''
+        for(let i=0; i<=20; i++){
+            if(details[`strIngredient${i}`]){
+                ingredients += `<li class="alert alert-warning m-2 p-1">${details[`strMeasure${i}`]} ${details[`strIngredient${i}`]}</li>`
+            }
+        }
+
+    // Get Tags
+    let tags = details.strTags?.split(',')
+    console.log(tags);
+    if(tags == undefined){tags = []}
+    let tagsStr = ''
+    for(let i=0; i< tags.length; i++){
+        tagsStr += `<li class="alert alert-danger m-2 p-1">${tags[i]}</li>`
+    }
+
+    let cartona = ''
+    cartona = 
+        `<div class="col-md-4">
+            <img src="${details.strMealThumb}" class="w-100 rounded">
+            <h2>${details.strMeal}</h2>
+        </div>
+        <div class="col-md-8">
+            <h3>Instructions</h3>
+            <p id="instructions">${details.strInstructions}</p>
+            <h4><strong>Area: </strong>${details.strArea}</h4>
+            <h4><strong>Category:</strong>${details.strCategory}</h4>
+            <h4><strong>Recipes:</strong></h4>
+            <ul class="list-unstyled d-flex flex-wrap g-3">
+                ${ingredients}
+            </ul>
+            <h4><strong>Tags:</strong></h4>
+            <ul class="list-unstyled d-flex flex-wrap g-3">
+                ${tagsStr}
+            </ul>
+            <a target="_blank" class="btn btn-success" href="${details.strSource}">Source</a>
+            <a target="_blank" class="btn btn-danger" href="${details.strYoutube}">Youtube</a>
+        </div>`
+
+        // let num = 75
+        // ${details.strInstructions.split(' ').slice(0 , num).join(" ")}
+        // <a href="#"> see more ... </a>
+    rowData.innerHTML = cartona
 }
+
+
+// for testing
+// getMealDetails(52979) // many strTags
+// getMealDetails(52971) // null strTags
