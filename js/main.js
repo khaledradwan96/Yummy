@@ -64,7 +64,7 @@ function goToSearch(){
             </div>
         </div>`
 }
-goToSearch()
+// goToSearch()
 
 // ========== Search meal by name ==========
 async function searchByName(name){
@@ -92,8 +92,8 @@ function displayMeals(data){
             `<div class="col-md-3">
                 <div class="meal" onclick="getMealDetails(${data[i].idMeal})">
                     <img src="${data[i].strMealThumb}" class="w-100">
-                    <div class="meal-layer">
-                            <h3>${data[i].strMeal}</h3>
+                    <div class="meal-layer justify-content-center">
+                        <h3>${data[i].strMeal}</h3>
                     </div>
                 </div>
             </div>`
@@ -115,7 +115,7 @@ async function getMealDetails(id){
     
     let details = response.meals[0];
 
-    // Get Ingredients
+    // === Get Ingredients ===
     let ingredients = ''
         for(let i=0; i<=20; i++){
             if(details[`strIngredient${i}`]){
@@ -123,7 +123,7 @@ async function getMealDetails(id){
             }
         }
 
-    // Get Tags
+    // === Get Tags ===
     let tags = details.strTags?.split(',')
     console.log(tags);
     if(tags == undefined){tags = []}
@@ -134,11 +134,11 @@ async function getMealDetails(id){
 
     let cartona = ''
     cartona = 
-        `<div class="col-md-4">
+        `<div class="col-lg-4">
             <img src="${details.strMealThumb}" class="w-100 rounded">
             <h2>${details.strMeal}</h2>
         </div>
-        <div class="col-md-8">
+        <div class="col-lg-8">
             <h3>Instructions</h3>
             <p id="instructions">${details.strInstructions}</p>
             <h4><strong>Area: </strong>${details.strArea}</h4>
@@ -160,8 +160,32 @@ async function getMealDetails(id){
         // <a href="#"> see more ... </a>
     rowData.innerHTML = cartona
 }
+// === for testing getMealDetails(id) ===
+// getMealDetails(52979) // => many strTags
+// getMealDetails(52971) // => null strTags
 
+// ========== go To meals category ==========
+async function goToCategory(){
+    closeNav()
+    let api = `https://www.themealdb.com/api/json/v1/1/categories.php`
+    let response = await fetch(api)
+    response = await response.json()
+    // console.log(response.categories)
+    let categories = response.categories
+    let cartona = ''
+    for(let i=0; i< categories.length; i++){
+        cartona += 
+            `<div class="col-md-3">
+                <div class="meal">
+                    <img src="${categories[i].strCategoryThumb}" class="w-100">
+                    <div class="meal-layer">
+                        <h3>${categories[i].strCategory}</h3>
+                        <p>${categories[i].strCategoryDescription.split(" ").slice(0,30).join(" ")}</p>
+                    </div>
+                </div>
+            </div>`
+    }
+    rowData.innerHTML = cartona
+}
+goToCategory()
 
-// for testing
-// getMealDetails(52979) // many strTags
-// getMealDetails(52971) // null strTags
