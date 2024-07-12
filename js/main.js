@@ -270,3 +270,34 @@ async function displayByArea(area){
 }
 // displayByArea('Canadian') // => for testing
 
+// ========== go To Ingredients ==========
+async function goToIngredients(){
+    searchContainer.innerHTML = ''
+    closeNav()
+    loadingScreen()
+    let api = `https://www.themealdb.com/api/json/v1/1/list.php?i=list`
+    let response = await fetch(api)
+    response = await response.json()
+    let data = response.meals
+    console.log(data) // => for testing
+
+    let cartona = ''
+    for(let i=0; i<20; i++){
+        cartona +=
+            `<div class="col-md-3">
+                <div onclick="displayIngredients()" class="meal text-center">
+                    <i class="fa-solid fa-utensils fa-4x"></i>
+                    <h3>${data[i].strIngredient}</h3>
+                    <p>${data[i].strDescription.split(" ").slice(0,20).join(" ")}</p>
+                </div>
+
+            </div>`
+    }
+    rowData.innerHTML = cartona
+}
+goToIngredients() // => for testing
+
+// ========== Display Ingredients ==========
+function displayIngredients(){
+    console.log('hi')
+}
