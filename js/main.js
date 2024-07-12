@@ -180,7 +180,7 @@ async function goToCategory(){
     for(let i=0; i< categories.length; i++){
         cartona += 
             `<div class="col-md-4">
-                <div onclick="displayCategory('${categories[i].strCategory}')" class="meal">
+                <div onclick="displayByCategory('${categories[i].strCategory}')" class="meal">
                     <img src="${categories[i].strCategoryThumb}" class="w-100">
                     <div class="meal-layer">
                         <h3>${categories[i].strCategory}</h3>
@@ -194,7 +194,7 @@ async function goToCategory(){
 // goToCategory()  // => for testing
 
 // ========== display category meals ==========
-async function displayCategory(category){
+async function displayByCategory(category){
     loadingScreen()
     rowData.innerHTML = ''
     let api = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
@@ -217,7 +217,7 @@ async function displayCategory(category){
     }
     rowData.innerHTML = cartona
 }
-// displayCategory('Seafood')  // => for testing
+// displayByCategory('Seafood')  // => for testing
 
 // ========== go To Areas ==========
 async function goToArea(){
@@ -234,7 +234,7 @@ async function goToArea(){
     for(let i=0; i<data.length; i++){
         cartona +=
             `<div class="col-md-3">
-                <div onclick="displayArea('${data[i].strArea}')" class="meal">
+                <div onclick="displayByArea('${data[i].strArea}')" class="meal">
                     <img src="images/country icons/${data[i].strArea}.png" class="w-100">
                     <h3 class="text-center">${data[i].strArea}</h3>
                 </div>
@@ -245,7 +245,7 @@ async function goToArea(){
 // goToArea() // => for testing
 
 // ========== Display Areas meals ==========
-async function displayArea(area){
+async function displayByArea(area){
     loadingScreen()
     rowData.innerHTML = ''
     let api = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`
@@ -268,4 +268,5 @@ async function displayArea(area){
     }
     rowData.innerHTML = cartona
 }
-// displayArea('Canadian') // => for testing
+// displayByArea('Canadian') // => for testing
+
