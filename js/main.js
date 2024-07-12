@@ -234,7 +234,7 @@ async function goToArea(){
     for(let i=0; i<data.length; i++){
         cartona +=
             `<div class="col-md-3">
-                <div onclick="displayArea()" class="meal">
+                <div onclick="displayArea('${data[i].strArea}')" class="meal">
                     <img src="images/country icons/${data[i].strArea}.png" class="w-100">
                     <h3 class="text-center">${data[i].strArea}</h3>
                 </div>
@@ -245,6 +245,27 @@ async function goToArea(){
 // goToArea() // => for testing
 
 // ========== Display Areas meals ==========
-function displayArea(){
-    console.log('hi')
+async function displayArea(area){
+    loadingScreen()
+    rowData.innerHTML = ''
+    let api = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`
+    let response = await fetch(api)
+    response = await response.json()
+    let data = response.meals
+    // console.log(data) // => for testing
+
+    let cartona = ''
+    for(let i=0; i<data.length; i++){
+        cartona +=
+            `<div class="col-md-4">
+                <div onclick="getMealDetails(${data[i].idMeal})" class="meal">
+                    <img src="${data[i].strMealThumb}" class="w-100">
+                    <div class="meal-layer justify-content-center text-center">
+                        <h3>${data[i].strMeal}</h3>
+                    </div>
+                </div>
+            </div>`
+    }
+    rowData.innerHTML = cartona
 }
+// displayArea('Canadian') // => for testing
