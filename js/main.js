@@ -279,25 +279,45 @@ async function goToIngredients(){
     let response = await fetch(api)
     response = await response.json()
     let data = response.meals
-    console.log(data) // => for testing
+    // console.log(data) // => for testing
 
     let cartona = ''
     for(let i=0; i<20; i++){
         cartona +=
             `<div class="col-md-3">
-                <div onclick="displayIngredients()" class="meal text-center">
+                <div onclick="displayByIngredients('${data[i].strIngredient}')" class="meal text-center">
                     <i class="fa-solid fa-utensils fa-4x"></i>
                     <h3>${data[i].strIngredient}</h3>
                     <p>${data[i].strDescription.split(" ").slice(0,20).join(" ")}</p>
                 </div>
-
             </div>`
     }
     rowData.innerHTML = cartona
 }
-goToIngredients() // => for testing
+// goToIngredients() // => for testing
 
 // ========== Display Ingredients ==========
-function displayIngredients(){
-    console.log('hi')
+async function displayByIngredients(ingredient){
+    loadingScreen()
+    rowData.innerHTML = ''
+    let api = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`
+    let response = await fetch(api)
+    response = await response.json()
+    let data = response.meals
+    // console.log(data) // => for testing
+
+    let cartona = ''
+    for(let i=0; i<data.length; i++){
+        cartona +=
+            `<div class="col-md-4">
+                <div onclick="getMealDetails(${data[i].idMeal})" class="meal rounded">
+                    <img src="${data[i].strMealThumb}" class="w-100">
+                    <div class="meal-layer justify-content-center text-center">
+                        <h3>${data[i].strMeal}</h3>
+                    </div>
+                </div>
+            </div>`
+    }
+    rowData.innerHTML = cartona
 }
+// displayByIngredients('chicken')  // => for testing
