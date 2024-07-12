@@ -113,11 +113,8 @@ async function getMealDetails(id){
     let api = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
     let response = await fetch(api)
     response = await response.json()
-    // console.log(response)
-    // console.log(response.meals)
-    console.log(response.meals[0])
-    
     let details = response.meals[0];
+    console.log(details)
 
     // === Get Ingredients ===
     let ingredients = ''
@@ -170,18 +167,20 @@ async function getMealDetails(id){
 
 // ========== go To meals category ==========
 async function goToCategory(){
+    searchContainer.innerHTML = ''
     closeNav()
     loadingScreen()
     let api = `https://www.themealdb.com/api/json/v1/1/categories.php`
     let response = await fetch(api)
     response = await response.json()
-    // console.log(response.categories)
     let categories = response.categories
+    // console.log(categories)
+
     let cartona = ''
     for(let i=0; i< categories.length; i++){
         cartona += 
-            `<div class="col-md-3">
-                <div class="meal">
+            `<div class="col-md-4">
+                <div onclick="displayCategory('${categories[i].strCategory}')" class="meal">
                     <img src="${categories[i].strCategoryThumb}" class="w-100">
                     <div class="meal-layer">
                         <h3>${categories[i].strCategory}</h3>
@@ -195,6 +194,27 @@ async function goToCategory(){
 // goToCategory()
 
 // ========== display category meals ==========
-function displayCategory(){
+async function displayCategory(category){
+    loadingScreen()
+    rowData.innerHTML = ''
+    let api = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+    let response = await fetch(api)
+    response = await response.json()
+    let data = response.meals
+    console.log(data)
 
+    let cartona = ''
+    for(let i=0; i<data.length; i++){
+        cartona +=
+            `<div class="col-md-4">
+                <div onclick="getMealDetails(${data[i].idMeal})" class="meal">
+                    <img src="${data[i].strMealThumb}" class="w-100">
+                    <div class="meal-layer justify-content-center text-center">
+                        <h3>${data[i].strMeal}</h3>
+                    </div>
+                </div>
+            </div>`
+    }
+    rowData.innerHTML = cartona
 }
+// displayCategory('Seafood')
