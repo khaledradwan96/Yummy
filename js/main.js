@@ -64,13 +64,15 @@ function goToSearch(){
             </div>
         </div>`
 }
+goToSearch()
 
 // ========== Search meal by name ==========
 async function searchByName(name = 'Arrabiata'){
     let api = `https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`
     let response = await fetch(api)
     response = await response.json()
-    console.log(response)
+    console.log(response.meals)
+    displayMeals(response.meals)
 }
 
 // ========== List all meals by first letter ==========
@@ -79,4 +81,28 @@ async function searchByFirstLetter(letter = 'a'){
     let response = await fetch(api)
     response = await response.json()
     console.log(response)
+    displayMeals(response.meals)
+}
+
+// ========== Display meals ==========
+function displayMeals(data){
+    let cartona = ''
+    for(let i = 0; i<data.length; i++){
+        cartona += 
+            `<div class="col-md-3">
+                <div class="meal" onclick="getMealDetails(${data[i].idMeal})">
+                    <img src="${data[i].strMealThumb}" class="w-100">
+                    <div class="meal-layer">
+                            <h3>${data[i].strMeal}</h3>
+                    </div>
+                </div>
+            </div>`
+    }
+    rowData.innerHTML = cartona
+}
+
+// ========== get meal details ==========
+function getMealDetails(id){
+    console.log('details' , id)
+
 }

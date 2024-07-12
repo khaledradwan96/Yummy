@@ -178,3 +178,24 @@ nav .social a:hover {
 nav .social i {
   margin-right: 10px;
 }
+
+/* ========== Data Section ========== */
+.meal {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.meal .meal-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #f9f6f6ca;
+  top: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+}
+.meal:hover .meal-layer {
+  top: 0;
+}
