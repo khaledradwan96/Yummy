@@ -67,7 +67,7 @@ function goToSearch(){
             </div>
         </div>`
 }
-// goToSearch()
+// goToSearch() // => for testing
 
 // ========== Search meal by name ==========
 async function searchByName(name){
@@ -191,7 +191,7 @@ async function goToCategory(){
     }
     rowData.innerHTML = cartona
 }
-// goToCategory()
+// goToCategory()  // => for testing
 
 // ========== display category meals ==========
 async function displayCategory(category){
@@ -217,4 +217,34 @@ async function displayCategory(category){
     }
     rowData.innerHTML = cartona
 }
-// displayCategory('Seafood')
+// displayCategory('Seafood')  // => for testing
+
+// ========== go To Areas ==========
+async function goToArea(){
+    searchContainer.innerHTML = ''
+    closeNav()
+    loadingScreen()
+    let api = `https://www.themealdb.com/api/json/v1/1/list.php?a=list`
+    let response = await fetch(api)
+    response = await response.json()
+    let data = response.meals
+    console.log(data)
+
+    let cartona = ''
+    for(let i=0; i<data.length; i++){
+        cartona +=
+            `<div class="col-md-3">
+                <div onclick="displayArea()" class="meal">
+                    <img src="images/country icons/${data[i].strArea}.png" class="w-100">
+                    <h3 class="text-center">${data[i].strArea}</h3>
+                </div>
+            </div>`
+    }
+    rowData.innerHTML = cartona
+}
+// goToArea() // => for testing
+
+// ========== Display Areas meals ==========
+function displayArea(){
+    console.log('hi')
+}
