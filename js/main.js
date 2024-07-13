@@ -321,6 +321,111 @@ async function displayByIngredients(ingredient){
 function goToContact(){
     closeNav();
     loadingScreen()
-    console.log('hi')
+    rowData.innerHTML = 
+            `<div class="contact vh-100 d-flex justify-content-center align-items-center">
+                <div class="container text-center">
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <input onkeyup="checkName()" type="text" class="form-control" placeholder="Enter Your Name">
+                            <p class="alert alert-danger mt-2 mb-0 d-none">Special characters and numbers not allowed</p>
+                        </div>
+                        <div class="col-md-6">
+                            <input onkeyup="checkEmail()" type="email" class="form-control" placeholder="Enter Your Email">
+                            <p class="alert alert-danger mt-2 mb-0 d-none">Email not valid *exemple@yyy.zzz</p>
+                        </div>
+                        <div class="col-md-6">
+                            <input onkeyup="checkPhone()" type="tel" class="form-control" placeholder="Enter Your Phone">
+                            <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid Phone Number</p>
+                        </div>
+                        <div class="col-md-6">
+                            <input onkeyup="checkAge()" type="number" class="form-control" placeholder="Enter Your Age">
+                            <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid age</p>
+                        </div>
+                        <div class="col-md-6">
+                            <input onkeyup="checkPassword()" type="password" class="form-control" placeholder="Enter Your Password">
+                            <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid password *Minimum eight characters, at least one letter and one number:*</p>
+                        </div>
+                        <div class="col-md-6">
+                            <input onkeyup="checkRePassword()" type="password" class="form-control" placeholder="Rewrite Password">
+                            <p class="alert alert-danger mt-2 mb-0 d-none">Enter same valid password</p>
+                        </div>
+                    </div>
+                    <button disabled="true" class="btn btn-outline-danger mt-2">Submit</button>
+                </div>
+            </div>`
 }
-// goToContact()  // => for testing
+goToContact()  // => for testing
+
+// ========== Check inputs validation  ==========
+// === name ===
+function checkName(){
+    let input = document.querySelector('input[type="text"]')
+    let alert = input.nextElementSibling;
+    let patternRegex = /^[a-zA-Z -]+$/
+    if(patternRegex.test(input.value)){
+        alert.classList.replace("d-block", "d-none")
+        return true;
+    }else{
+        alert.classList.replace("d-none", "d-block")
+    }
+}
+// === email ===
+function checkEmail(){
+    let input = document.querySelector('input[type="email"]')
+    let alert = input.nextElementSibling;
+    let patternRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if(patternRegex.test(input.value)){
+        alert.classList.replace("d-block", "d-none")
+        return true;
+    }else{
+        alert.classList.replace("d-none", "d-block")
+    }
+}
+// === Phone ===
+function checkPhone(){
+    let input = document.querySelector('input[type="tel"]')
+    let alert = input.nextElementSibling;
+    let patternRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
+    if(patternRegex.test(input.value)){
+        alert.classList.replace("d-block", "d-none")
+        return true;
+    }else{
+        alert.classList.replace("d-none", "d-block")
+    }
+}
+// === Age ===
+function checkAge(){
+    let input = document.querySelector('input[type="number"]')
+    let alert = input.nextElementSibling;
+    let patternRegex = /^(0?[1-9]|[1-9][0-9]|[1][1-9][1-9]|200)$/
+    if(patternRegex.test(input.value)){
+        alert.classList.replace("d-block", "d-none")
+        return true;
+    }else{
+        alert.classList.replace("d-none", "d-block")
+    }
+}
+// === Password ===
+function checkPassword(){
+    let input = document.querySelectorAll('input[type="password"]')[0]
+    let alert = input.nextElementSibling;
+    let patternRegex = /^(?=.*\d)(?=.*[a-z])[0-9a-zA-Z]{8,}$/
+    if(patternRegex.test(input.value)){
+        alert.classList.replace("d-block", "d-none")
+        return true;
+    }else{
+        alert.classList.replace("d-none", "d-block")
+    }
+}
+// === rePassword ===
+function checkRePassword(){
+    let password = document.querySelectorAll('input[type="password"]')[0]
+    let rePassword = document.querySelectorAll('input[type="password"]')[1]
+    let alert = rePassword.nextElementSibling;
+    if(rePassword.value === password.value){
+        alert.classList.replace("d-block", "d-none")
+        return true;
+    }else{
+        alert.classList.replace("d-none", "d-block")
+    }
+}
