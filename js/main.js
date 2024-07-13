@@ -355,7 +355,7 @@ function goToContact(){
                 </div>
             </div>`
 }
-goToContact()  // => for testing
+// goToContact()  // => for testing
 
 // ========== Check inputs validation  ==========
 // === naming variables of inputs ===
@@ -414,3 +414,15 @@ function checkAll(){
         document.getElementById('submitBtn').setAttribute("disabled", true)
     }
 }
+
+// ===== event when submit =====
+$('#submitBtn').click(function(){
+    $('.alert-success').removeClass('d-none')
+    name.value = ''
+    email.value = ''
+    phone.value = ''
+    age.value = ''
+    password.value = ''
+    rePassword.value = ''
+    $('input').removeClass('is-valid')
+})
