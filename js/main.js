@@ -326,106 +326,91 @@ function goToContact(){
                 <div class="container text-center">
                     <div class="row g-2">
                         <div class="col-md-6">
-                            <input onkeyup="checkName()" type="text" class="form-control" placeholder="Enter Your Name">
+                            <input oninput="inputsValidation(this)" type="text" class="form-control" placeholder="Enter Your Name">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Special characters and numbers not allowed</p>
                         </div>
                         <div class="col-md-6">
-                            <input onkeyup="checkEmail()" type="email" class="form-control" placeholder="Enter Your Email">
+                            <input oninput="inputsValidation(this)" type="email" class="form-control" placeholder="Enter Your Email">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Email not valid *exemple@yyy.zzz</p>
                         </div>
                         <div class="col-md-6">
-                            <input onkeyup="checkPhone()" type="tel" class="form-control" placeholder="Enter Your Phone">
+                            <input oninput="inputsValidation(this)" type="tel" class="form-control" placeholder="Enter Your Phone">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid Phone Number</p>
                         </div>
                         <div class="col-md-6">
-                            <input onkeyup="checkAge()" type="number" class="form-control" placeholder="Enter Your Age">
+                            <input oninput="inputsValidation(this)" type="number" class="form-control" placeholder="Enter Your Age">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid age</p>
                         </div>
                         <div class="col-md-6">
-                            <input onkeyup="checkPassword()" type="password" class="form-control" placeholder="Enter Your Password">
+                            <input oninput="inputsValidation(this)" type="password" class="form-control" placeholder="Enter Your Password">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid password *Minimum eight characters, at least one letter and one number:*</p>
                         </div>
                         <div class="col-md-6">
-                            <input onkeyup="checkRePassword()" type="password" class="form-control" placeholder="Rewrite Password">
+                            <input oninput="checkRePassword()" type="password" class="form-control" placeholder="Rewrite Password">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter same valid password</p>
                         </div>
                     </div>
-                    <button disabled="true" class="btn btn-outline-danger mt-2">Submit</button>
+                    <button id="submitBtn" disabled="true" class="btn btn-outline-danger mt-2">Submit</button>
+                    <p class="alert alert-success mt-2 mb-0 d-none">Submit Success</p>
                 </div>
             </div>`
 }
 goToContact()  // => for testing
 
 // ========== Check inputs validation  ==========
-// === name ===
-function checkName(){
-    let input = document.querySelector('input[type="text"]')
+// === naming variables of inputs ===
+let name = document.querySelector('input[type="text"]')
+let email = document.querySelector('input[type="email"]')
+let phone = document.querySelector('input[type="tel"]')
+let age = document.querySelector('input[type="number"]')
+let password = document.querySelectorAll('input[type="password"]')[0]
+let rePassword = document.querySelectorAll('input[type="password"]')[1]
+
+// ===== all regex pattern (name & email & phone & age & password) =====
+let regexPattern = {
+    text: /^[a-zA-Z -]+$/, // => for name
+    email: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    tel: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, // => for phone
+    number:  /^(0?[1-9]|[1-9][0-9]|[1][1-9][1-9]|200)$/, // for age
+    password: /^(?=.*\d)(?=.*[a-z])[0-9a-zA-Z]{8,}$/
+}
+
+// ===== function check all inputs validation =====
+function inputsValidation(input){
     let alert = input.nextElementSibling;
-    let patternRegex = /^[a-zA-Z -]+$/
-    if(patternRegex.test(input.value)){
+    if(regexPattern[input.type].test(input.value)){
         alert.classList.replace("d-block", "d-none")
-        return true;
+        input.classList.add('is-valid')
     }else{
         alert.classList.replace("d-none", "d-block")
+        input.classList.remove('is-valid')
     }
+    checkAll()
 }
-// === email ===
-function checkEmail(){
-    let input = document.querySelector('input[type="email"]')
-    let alert = input.nextElementSibling;
-    let patternRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    if(patternRegex.test(input.value)){
-        alert.classList.replace("d-block", "d-none")
-        return true;
-    }else{
-        alert.classList.replace("d-none", "d-block")
-    }
-}
-// === Phone ===
-function checkPhone(){
-    let input = document.querySelector('input[type="tel"]')
-    let alert = input.nextElementSibling;
-    let patternRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
-    if(patternRegex.test(input.value)){
-        alert.classList.replace("d-block", "d-none")
-        return true;
-    }else{
-        alert.classList.replace("d-none", "d-block")
-    }
-}
-// === Age ===
-function checkAge(){
-    let input = document.querySelector('input[type="number"]')
-    let alert = input.nextElementSibling;
-    let patternRegex = /^(0?[1-9]|[1-9][0-9]|[1][1-9][1-9]|200)$/
-    if(patternRegex.test(input.value)){
-        alert.classList.replace("d-block", "d-none")
-        return true;
-    }else{
-        alert.classList.replace("d-none", "d-block")
-    }
-}
-// === Password ===
-function checkPassword(){
-    let input = document.querySelectorAll('input[type="password"]')[0]
-    let alert = input.nextElementSibling;
-    let patternRegex = /^(?=.*\d)(?=.*[a-z])[0-9a-zA-Z]{8,}$/
-    if(patternRegex.test(input.value)){
-        alert.classList.replace("d-block", "d-none")
-        return true;
-    }else{
-        alert.classList.replace("d-none", "d-block")
-    }
-}
-// === rePassword ===
+
+// ===== rePassword =====
 function checkRePassword(){
-    let password = document.querySelectorAll('input[type="password"]')[0]
-    let rePassword = document.querySelectorAll('input[type="password"]')[1]
     let alert = rePassword.nextElementSibling;
     if(rePassword.value === password.value){
         alert.classList.replace("d-block", "d-none")
-        return true;
+        rePassword.classList.add('is-valid')
     }else{
         alert.classList.replace("d-none", "d-block")
+        rePassword.classList.remove('is-valid')
+    }
+    checkAll()
+}
+function checkAll(){
+    if(((regexPattern.text).test(name.value)) &&
+        ((regexPattern.email).test(email.value)) &&
+        ((regexPattern.tel).test(phone.value)) &&
+        ((regexPattern.number).test(age.value)) &&
+        ((regexPattern.password).test(password.value)) &&
+        (rePassword.value === password.value)){
+            console.log('valid')
+            document.getElementById('submitBtn').removeAttribute("disabled")
+    }else{
+        console.log('not valid')
+        document.getElementById('submitBtn').setAttribute("disabled", true)
     }
 }

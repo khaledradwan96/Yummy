@@ -202,3 +202,7 @@ nav .social i {
 .meal:hover .meal-layer {
   top: 0;
 }
+
+input[type="text"] {
+  background-color: #eb5b00 !important;
+}
