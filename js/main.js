@@ -333,27 +333,27 @@ function goToContact(){
                 <div class="container text-center">
                     <div class="row g-2">
                         <div class="col-md-6">
-                            <input onblur="inputsValidation(this)" type="text" class="form-control" placeholder="Enter Your Name">
+                            <input oninput="inputsValidation(this)" type="text" class="form-control" placeholder="Enter Your Name">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Special characters and numbers not allowed</p>
                         </div>
                         <div class="col-md-6">
-                            <input onblur="inputsValidation(this)" type="email" class="form-control" placeholder="Enter Your Email">
+                            <input oninput="inputsValidation(this)" type="email" class="form-control" placeholder="Enter Your Email">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Email not valid *exemple@yyy.zzz</p>
                         </div>
                         <div class="col-md-6">
-                            <input onblur="inputsValidation(this)" type="tel" class="form-control" placeholder="Enter Your Phone">
+                            <input oninput="inputsValidation(this)" type="tel" class="form-control" placeholder="Enter Your Phone">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid Phone Number</p>
                         </div>
                         <div class="col-md-6">
-                            <input onblur="inputsValidation(this)" type="number" class="form-control" placeholder="Enter Your Age">
+                            <input oninput="inputsValidation(this)" type="number" class="form-control" placeholder="Enter Your Age">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid age</p>
                         </div>
                         <div class="col-md-6">
-                            <input onblur="inputsValidation(this)" type="password" class="form-control" placeholder="Enter Your Password">
+                            <input oninput="inputsValidation(this)" type="password" class="form-control" placeholder="Enter Your Password">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid password *Minimum eight characters, at least one letter and one number:*</p>
                         </div>
                         <div class="col-md-6">
-                            <input onblur="checkRePassword()" type="password" class="form-control" placeholder="Rewrite Password">
+                            <input oninput="checkRePassword(this)" type="password" class="form-control" placeholder="Rewrite Password">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter same valid password</p>
                         </div>
                     </div>
@@ -365,14 +365,6 @@ function goToContact(){
 // goToContact()  // => for testing
 
 // ========== Check inputs validation  ==========
-// === naming variables of inputs ===
-let name = document.querySelector('input[type="text"]')
-let email = document.querySelector('input[type="email"]')
-let phone = document.querySelector('input[type="tel"]')
-let age = document.querySelector('input[type="number"]')
-let password = document.querySelectorAll('input[type="password"]')[0]
-let rePassword = document.querySelectorAll('input[type="password"]')[1]
-
 // ===== all regex pattern (name & email & phone & age & password) =====
 let regexPattern = {
     text: /^[a-zA-Z -]+$/, // => for name
@@ -395,18 +387,26 @@ function inputsValidation(input){
 }
 
 // ===== rePassword =====
-function checkRePassword(){
-    let alert = rePassword.nextElementSibling;
-    if(rePassword.value == password.value){
+function checkRePassword(input){
+    let password = document.querySelectorAll('input[type="password"]')[0]
+    let alert = input.nextElementSibling;
+    if(input.value == password.value){
         alert.classList.replace("d-block", "d-none")
-        rePassword.classList.add('is-valid')
+        input.classList.add('is-valid')
     }else{
         alert.classList.replace("d-none", "d-block")
-        rePassword.classList.remove('is-valid')
+        input.classList.remove('is-valid')
     }
     checkAll()
 }
 function checkAll(){
+    // === naming variables of inputs ===
+    let name = document.querySelector('input[type="text"]')
+    let email = document.querySelector('input[type="email"]')
+    let phone = document.querySelector('input[type="tel"]')
+    let age = document.querySelector('input[type="number"]')
+    let password = document.querySelectorAll('input[type="password"]')[0]
+    let rePassword = document.querySelectorAll('input[type="password"]')[1]
     if(((regexPattern.text).test(name.value)) &&
         ((regexPattern.email).test(email.value)) &&
         ((regexPattern.tel).test(phone.value)) &&
