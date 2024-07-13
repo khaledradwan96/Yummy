@@ -357,7 +357,7 @@ function goToContact(){
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter same valid password</p>
                         </div>
                     </div>
-                    <button id="submitBtn" disabled="true" class="btn btn-outline-danger mt-2">Submit</button>
+                    <button id="submitBtn" disabled onclick="submit()" class="btn btn-outline-danger mt-2">Submit</button>
                     <p class="alert alert-success mt-2 mb-0 d-none">Submit Success</p>
                 </div>
             </div>`
@@ -422,16 +422,9 @@ function checkAll(){
 }
 
 // ===== event when submit =====
-$('#submitBtn').click(function(){
+function submit(){
     $('.alert-success').removeClass('d-none')
-    name.value = ''
-    email.value = ''
-    phone.value = ''
-    age.value = ''
-    password.value = ''
-    rePassword.value = ''
-    $('input').removeClass('is-valid')
-})
+}
 
 // ===> for testing inputs
 // name.value = 'k'
