@@ -1,10 +1,18 @@
 // #################### main script ####################
-// ========== loading screen ========== 
+let searchContainer = document.getElementById('searchContainer')
+let rowData = document.getElementById('rowData')
 $(document).ready(function(){
-    $('.loading-screen').fadeOut(1000, function(){
+    $('.loading-screen').fadeOut(500, function(){
         $('body').css('overflow', 'auto')
     })
+    searchByName(' ')
 })
+// ========== function loadingScreen ==========
+function loadingScreen(){
+    $('.loading-screen').fadeIn(100).fadeOut(700)
+    rowData.innerHTML = ''
+    searchContainer.innerHTML = ''
+}
 
 // ========== navbar left ==========
 let boxWidth = $('nav .nav-tab').outerWidth()
@@ -32,12 +40,6 @@ function closeNav(){
         }
     }
 }
-// ========== function loadingScreen ==========
-function loadingScreen(){
-    $('.loading-screen').fadeIn(100).fadeOut(500);
-    rowData.innerHTML = ''
-    searchContainer.innerHTML = ''
-}
 
 // ========== change website theme ==========
 $('.colorContainer span').click(function(){
@@ -46,12 +48,8 @@ $('.colorContainer span').click(function(){
     $(':root').css('--main-color', color)
 })
 
-let searchContainer = document.getElementById('searchContainer')
-let rowData = document.getElementById('rowData')
-
 // #################### Search script ####################
 // ========== Show Search inputs ==========
-
 function goToSearch(){
     closeNav();
     loadingScreen()
@@ -112,7 +110,6 @@ async function getMealDetails(id){
     response = await response.json()
     let details = response.meals[0];
     // console.log(details) // => for testing
-
     // === Get Ingredients ===
     let ingredients = ''
         for(let i=0; i<=20; i++){
@@ -120,7 +117,6 @@ async function getMealDetails(id){
                 ingredients += `<li class="alert alert-warning m-2 p-1">${details[`strMeasure${i}`]} ${details[`strIngredient${i}`]}</li>`
             }
         }
-
     // === Get Tags ===
     let tags = details.strTags?.split(',')
     // console.log(tags); // => for testing
@@ -129,7 +125,8 @@ async function getMealDetails(id){
     for(let i=0; i< tags.length; i++){
         tagsStr += `<li class="alert alert-danger m-2 p-1">${tags[i]}</li>`
     }
-
+    // === string of instruction ===
+    let strInstructions = details.strInstructions.split('.').slice(0, 3).join(".");
     let cartona = ''
     cartona = 
         `<div class="col-lg-4">
@@ -138,25 +135,38 @@ async function getMealDetails(id){
         </div>
         <div class="col-lg-8">
             <h3>Instructions</h3>
-            <p id="instructions">${details.strInstructions}</p>
-            <h4><strong>Area: </strong>${details.strArea}</h4>
-            <h4><strong>Category:</strong>${details.strCategory}</h4>
-            <h4><strong>Recipes:</strong></h4>
-            <ul class="list-unstyled d-flex flex-wrap g-3">
-                ${ingredients}
-            </ul>
+            <p id="pStrInstructions" class="mb-0">${strInstructions}</p>
+            <a id="seeMoreBtn" class="btn text-primary mb-3">see more ...</a>
+            <h4>
+                <strong>Area: </strong>
+                <span class="badge rounded-pill text-bg-success">${details.strArea}</span>
+            </h4>
+            <h4>
+                <strong>Category: </strong>
+                <span class="badge rounded-pill text-bg-primary">${details.strCategory}</span>
+            </h4>
+            <h4><strong>Recipes: </strong></h4>
+            <ul class="list-unstyled d-flex flex-wrap g-3">${ingredients}</ul>
             <h4><strong>Tags:</strong></h4>
-            <ul class="list-unstyled d-flex flex-wrap g-3">
-                ${tagsStr}
-            </ul>
+            <ul class="list-unstyled d-flex flex-wrap g-3">${tagsStr}</ul>
             <a target="_blank" class="btn btn-success" href="${details.strSource}">Source</a>
             <a target="_blank" class="btn btn-danger" href="${details.strYoutube}">Youtube</a>
         </div>`
-
-        // let num = 75
-        // ${details.strInstructions.split(' ').slice(0 , num).join(" ")}
-        // <a href="#"> see more ... </a>
     rowData.innerHTML = cartona
+    // === continue string of instruction ===
+    let pStrInstructions = document.getElementById('pStrInstructions')
+    let seeMoreBtn = document.getElementById('seeMoreBtn')
+    seeMoreBtn.addEventListener('click', function(){
+        if(seeMoreBtn.innerHTML == 'see more ...'){
+            strInstructions = details.strInstructions;
+            console.log(strInstructions)
+            seeMoreBtn.innerHTML = 'see less ...'
+        }else{
+            seeMoreBtn.innerHTML = 'see more ...'
+            strInstructions = details.strInstructions.split('.').slice(0, 3).join(".");
+        }
+        pStrInstructions.innerHTML = strInstructions
+    })
 }
 // === for testing getMealDetails(id) ===
 // getMealDetails(52979) // => many strTags
@@ -172,7 +182,6 @@ async function goToCategory(){
     response = await response.json()
     let categories = response.categories
     // console.log(categories) // => for testing
-
     let cartona = ''
     for(let i=0; i< categories.length; i++){
         cartona += 
@@ -198,7 +207,6 @@ async function displayByCategory(category){
     response = await response.json()
     let data = response.meals
     // console.log(data) // => for testing
-
     let cartona = ''
     for(let i=0; i<data.length; i++){
         cartona +=
@@ -225,14 +233,15 @@ async function goToArea(){
     response = await response.json()
     let data = response.meals
     // console.log(data) // => for testing
-
     let cartona = ''
     for(let i=0; i<data.length; i++){
         cartona +=
             `<div class="col-md-3">
                 <div onclick="displayByArea('${data[i].strArea}')" class="meal">
                     <img src="images/country icons/${data[i].strArea}.png" class="w-100">
-                    <h3 class="text-center">${data[i].strArea}</h3>
+                    <div class="area-layer"> 
+                        <h3 class="text-center">${data[i].strArea}</h3>
+                    </div>
                 </div>
             </div>`
     }
@@ -248,7 +257,6 @@ async function displayByArea(area){
     response = await response.json()
     let data = response.meals
     // console.log(data) // => for testing
-
     let cartona = ''
     for(let i=0; i<data.length; i++){
         cartona +=
@@ -275,15 +283,15 @@ async function goToIngredients(){
     response = await response.json()
     let data = response.meals
     // console.log(data) // => for testing
-
     let cartona = ''
     for(let i=0; i<20; i++){
         cartona +=
-            `<div class="col-md-3">
-                <div onclick="displayByIngredients('${data[i].strIngredient}')" class="meal text-center">
-                    <i class="fa-solid fa-utensils fa-4x"></i>
-                    <h3>${data[i].strIngredient}</h3>
-                    <p>${data[i].strDescription.split(" ").slice(0,20).join(" ")}</p>
+            `<div class="col-md-4">
+                <div onclick="displayByIngredients('${data[i].strIngredient}')" class="meal text-center" style="max-height: 200px;">
+                <i class="fa-solid fa-utensils fa-4x"></i>
+                <h3>${data[i].strIngredient}</h3>
+                <p>${data[i].strDescription.split(" ").slice(0,20).join(" ")}</p>
+                <div class="ingredients-layer"></div>
                 </div>
             </div>`
     }
@@ -299,7 +307,6 @@ async function displayByIngredients(ingredient){
     response = await response.json()
     let data = response.meals
     // console.log(data) // => for testing
-
     let cartona = ''
     for(let i=0; i<data.length; i++){
         cartona +=
@@ -326,27 +333,27 @@ function goToContact(){
                 <div class="container text-center">
                     <div class="row g-2">
                         <div class="col-md-6">
-                            <input oninput="inputsValidation(this)" type="text" class="form-control" placeholder="Enter Your Name">
+                            <input onblur="inputsValidation(this)" type="text" class="form-control" placeholder="Enter Your Name">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Special characters and numbers not allowed</p>
                         </div>
                         <div class="col-md-6">
-                            <input oninput="inputsValidation(this)" type="email" class="form-control" placeholder="Enter Your Email">
+                            <input onblur="inputsValidation(this)" type="email" class="form-control" placeholder="Enter Your Email">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Email not valid *exemple@yyy.zzz</p>
                         </div>
                         <div class="col-md-6">
-                            <input oninput="inputsValidation(this)" type="tel" class="form-control" placeholder="Enter Your Phone">
+                            <input onblur="inputsValidation(this)" type="tel" class="form-control" placeholder="Enter Your Phone">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid Phone Number</p>
                         </div>
                         <div class="col-md-6">
-                            <input oninput="inputsValidation(this)" type="number" class="form-control" placeholder="Enter Your Age">
+                            <input onblur="inputsValidation(this)" type="number" class="form-control" placeholder="Enter Your Age">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid age</p>
                         </div>
                         <div class="col-md-6">
-                            <input oninput="inputsValidation(this)" type="password" class="form-control" placeholder="Enter Your Password">
+                            <input onblur="inputsValidation(this)" type="password" class="form-control" placeholder="Enter Your Password">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter valid password *Minimum eight characters, at least one letter and one number:*</p>
                         </div>
                         <div class="col-md-6">
-                            <input oninput="checkRePassword()" type="password" class="form-control" placeholder="Rewrite Password">
+                            <input onblur="checkRePassword()" type="password" class="form-control" placeholder="Rewrite Password">
                             <p class="alert alert-danger mt-2 mb-0 d-none">Enter same valid password</p>
                         </div>
                     </div>
@@ -385,13 +392,12 @@ function inputsValidation(input){
         alert.classList.replace("d-none", "d-block")
         input.classList.remove('is-valid')
     }
-    checkAll()
 }
 
 // ===== rePassword =====
 function checkRePassword(){
     let alert = rePassword.nextElementSibling;
-    if(rePassword.value === password.value){
+    if(rePassword.value == password.value){
         alert.classList.replace("d-block", "d-none")
         rePassword.classList.add('is-valid')
     }else{
@@ -406,7 +412,7 @@ function checkAll(){
         ((regexPattern.tel).test(phone.value)) &&
         ((regexPattern.number).test(age.value)) &&
         ((regexPattern.password).test(password.value)) &&
-        (rePassword.value === password.value)){
+        (rePassword.value == password.value)){
             console.log('valid')
             document.getElementById('submitBtn').removeAttribute("disabled")
     }else{
@@ -426,3 +432,11 @@ $('#submitBtn').click(function(){
     rePassword.value = ''
     $('input').removeClass('is-valid')
 })
+
+// ===> for testing inputs
+// name.value = 'k'
+// email.value = 'khaledradwan96@gmail.com';
+// phone.value = '01145574637';
+// age.value = 27;
+// password.value = 'khaled123'
+// ===> end testing
