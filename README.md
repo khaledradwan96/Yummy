@@ -11,7 +11,7 @@
 - CSS
 - JS
 - Bootstrap
-- jquery
+- jQuery
 - Font Awesome
 
 ## Features
@@ -28,4 +28,4 @@
 
 ### [view live](https://khaledradwan96.github.io/Yummy/)
 
-<!-- ### [video review](https://khaledradwan96.github.io/Game-Reviews/) -->
+### [video review](https://www.linkedin.com/posts/khaledradwan96_frontend-route-js-activity-7218023742378000384-_Kcd/)
