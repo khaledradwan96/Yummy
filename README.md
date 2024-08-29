@@ -1,20 +1,20 @@
-# **Yummy**
+# **Yummy** (Recipes Website)
 
-## Description
+## 📄 Overview
 
-- This is the Yummy website - Recipes Website
+- Yummy is a responsive web application designed to help users discover and explore a wide variety of recipes. Key features include searching for recipes by name or initial letter, filtering by categories, areas, and ingredients, and viewing detailed recipe instructions. The website also includes a Contact Us page with form validation. Built with a focus on user experience, Yummy ensures optimal viewing across different devices.
 - I built this website during my learning journey with **Route** full-stack web development Diploma
 
-## Technologies Used
+## 🛠️ Technologies Used
 
-- HTML
-- CSS
-- JS
-- Bootstrap
-- jQuery
-- Font Awesome
+- **HTML**
+- **CSS**
+- **JS**
+- **Bootstrap**
+- **jQuery**
+- **Font Awesome**
 
-## Features
+## 🚀 Features
 
 - Browse a wide variety of recipes.
 - Search recipes by name and first letter.
@@ -28,4 +28,6 @@
 
 ### [view live](https://khaledradwan96.github.io/Yummy/)
 
-### [video review](https://www.linkedin.com/posts/khaledradwan96_frontend-route-js-activity-7218023742378000384-_Kcd/)
+## 📧 Contact
+
+If you have any questions or feedback, please reach out to me at [khaledradwan96@gmail.com](mailto:khaledradwan96@gmail.com).
